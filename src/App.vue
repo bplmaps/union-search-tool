@@ -1,24 +1,30 @@
-
 <template>
-<section id="search">
-  <union-search></union-search>
-</section>
+  <div id="app">
+    <UnionSearch/>
+  </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-import UnionSearch from "./UnionSearch";
-import './style.scss';
+<script>
+import UnionSearch from './components/UnionSearch.vue'
 
-  export default Vue.extend({
 
-    components: {
-      UnionSearch
-    }
-
-  });
+export default {
+  name: 'App',
+  components: {
+    UnionSearch
+  }
+}
 </script>
 
-<style>
-    
+<style lang="scss">
+@import "~bulma/sass/utilities/initial-variables.sass";
+$primary: #006688;
+
+@import "~bulma/bulma.sass";
+
+#app {
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+
 </style>

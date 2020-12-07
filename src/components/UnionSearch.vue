@@ -1,11 +1,20 @@
 
 <template>
 
-  <div class="container is-fluid py-5">
-    <h4 class="title is-4"><a href="https://leventhalmap.org">LMEC</a> ⧽ Digital collections quick search</h4>
+  <div class="container is-fluid py-5 px-3">
+
     <div class="field has-addons">
       <p class="control is-expanded">
         <input v-model="searchInput" @keyup.enter="submitSearch" class="input" type="text" placeholder="Enter titles, creators, or subjects">
+      </p>
+      <p class="control">
+        <span class="select">
+          <select name="search-type" id="" v-model="searchType">
+            <option value="both">Both repositories</option>
+            <option value="dc">Digital Collections only</option>
+            <option value="ia">Internet Archive only</option>
+          </select>
+        </span>
       </p>
       <p class="control">
         <a class="button is-primary" v-bind:class="searchAllowed" v-on:click="submitSearch" >
@@ -15,16 +24,18 @@
     </div> 
 
     <div id="results" :class="[this.digitalCollections.searchStatus === 'initial' && this.internetArchive.searchStatus === 'initial' ? 'is-hidden' : '']" class="has-background-white-ter px-5 py-4">
+     
+     <div v-if="searchType==='both' || searchType==='dc'" >
      <div :class="[this.digitalCollections.searchStatus === 'searching' ? '' : 'is-hidden']">
      Loading Digital Collections repository results <progress class="progress is-medium is-primary mt-2" max="100"></progress>
      </div>
 
      <div id="dc-search-results" class="mb-5" :class="[this.digitalCollections.searchStatus === 'returned' ? '' : 'is-hidden']">
 
-      <h5 class="title is-5 mb-4">Results from Digital Collections repository</h5>
+      <h4 class="title is-4 mb-4">Results from Digital Collections repository</h4>
       <div class="columns">
-       <div class="column is-one-fifth" v-for="result in digitalCollections.results">
-       <div class="card" v-on:click="goToResult(result.url)">
+       <div class="column is-one-fifth" v-bind:key="result" v-for="result in digitalCollections.results">
+       <div class="card"  v-on:click="goToResult(result.url)">
 
          <div class="result-inner">
            <div class="card-image">
@@ -48,15 +59,21 @@
         </div>
      </div>
 
+     </div>
+
+
+          <div v-if="searchType==='both' || searchType==='ia'" >
+
+
       <div :class="[this.internetArchive.searchStatus === 'searching' ? '' : 'is-hidden']">
      Loading Internet Archive results <progress class="progress is-medium is-primary mt-2" max="100"></progress>
      </div>
 
       <div id="ia-search-results" :class="[this.internetArchive.searchStatus === 'returned' ? '' : 'is-hidden']">
 
-      <h5 class="title is-5 mb-4">Results from Internet Archive</h5>
+      <h4 class="title is-4 mb-4">Results from Internet Archive</h4>
       <div class="columns">
-       <div class="column is-one-fifth" v-for="result in internetArchive.results">
+       <div class="column is-one-fifth" v-bind:key="result" v-for="result in internetArchive.results">
        <div class="card" v-on:click="goToResult(result.url)">
          <div class="result-inner">
            <div class="card-image">
@@ -79,6 +96,7 @@
         </div>
         </div>
      </div>
+     </div>
     
 
     </div>
@@ -100,6 +118,7 @@ import Vue from "vue";
         state: 'initial',
         searchInput: '',
         enteredSearchInput: '',
+        searchType: 'both',
         digitalCollections: {
           searchStatus: 'initial',
           results: [],
@@ -117,7 +136,7 @@ import Vue from "vue";
       searchAllowed: function() {
         if(this.digitalCollections.searchStatus === 'searching' || this.internetArchive.searchStatus === 'searching') { 
           return "is-static";
-        }
+        } else { return "" }
       }
       
       
@@ -189,5 +208,47 @@ import Vue from "vue";
 
 <style scoped>
 
+.container {
+  background-color: rgb(248, 248, 248);
+  box-shadow: inset 0px 0px 5px 1px rgba(0,0,0,0.5);
 
+}
+
+.card {
+    transition: background-color 0.5s ease;
+    cursor: pointer;
+
+    img { 
+        object-fit: cover;
+    }
+
+    h6 {
+        color: $grey-light;
+        font-size: 80%;
+    }
+}
+
+.card:hover {
+  background: rgba(204, 198, 226, 0.199);
+}
+
+@media (max-width: 768px) {
+
+    .result-inner {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .card-image {
+        display: block;
+        width: 25%;
+    }
+
+    .card-content {
+        display: block;
+        width: 75%;
+        padding: 5px;
+        
+    }
+}
 </style>
