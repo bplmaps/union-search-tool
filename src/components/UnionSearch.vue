@@ -3,16 +3,22 @@
 
   <div class="container is-fluid py-5 px-3">
 
-    <div class="field has-addons">
+    <div class="columns is-desktop">
+      <div class="column is-two-thirds-desktop">
+        <div class="field">
       <p class="control is-expanded">
         <input v-model="searchInput" @keyup.enter="submitSearch" class="input" type="text" placeholder="Enter titles, creators, or subjects">
       </p>
-      <p class="control">
+      </div>
+      </div>
+      <div class="column">
+        <div class="field has-addons">
+          <p class="control">
         <span class="select">
           <select name="search-type" id="" v-model="searchType">
-            <option value="both">Both repositories</option>
-            <option value="dc">Digital Collections only</option>
-            <option value="ia">Internet Archive only</option>
+            <option value="both">Both</option>
+            <option value="dc">Digital Collections</option>
+            <option value="ia">Internet Archive</option>
           </select>
         </span>
       </p>
@@ -21,7 +27,11 @@
           Search
         </a>
       </p>
-    </div> 
+        </div>
+      </div>
+      </div>
+    
+
 
     <div id="results" :class="[this.digitalCollections.searchStatus === 'initial' && this.internetArchive.searchStatus === 'initial' ? 'is-hidden' : '']" class="has-background-white-ter px-5 py-4">
      
