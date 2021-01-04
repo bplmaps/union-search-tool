@@ -40,7 +40,7 @@
 
       <h4 class="title is-4 mb-4">Results from Digital Collections repository</h4>
       <div class="columns">
-       <div class="column is-one-fifth" v-bind:key="result" v-for="result in digitalCollections.results">
+       <div class="column is-one-quarter" v-bind:key="result" v-for="result in digitalCollections.results">
        <div class="card"  v-on:click="goToResult(result.url)">
 
          <div class="result-inner">
@@ -57,7 +57,7 @@
         </div>
         </div>
 
-        <div class="column is-one-fifth">
+        <div class="column is-one-quarter">
           <div class="box"><div class="mb-2">
             <strong>{{ digitalCollections.totalResults == 0 ? "No" : digitalCollections.totalResults }} results</strong> from Digital Collections repository
           </div><a class="button is-primary" :href="'https://collections.leventhalmap.org/search?utf8=✓&q=' + enteredSearchInput" target="_blank" :class="[digitalCollections.totalResults == 0 ? 'is-hidden' : '']">See all</a></div>
@@ -79,12 +79,12 @@
 
       <h4 class="title is-4 mb-4">Results from Internet Archive</h4>
       <div class="columns">
-       <div class="column is-one-fifth" v-bind:key="result" v-for="result in internetArchive.results">
+       <div class="column is-one-quarter" v-bind:key="result" v-for="result in internetArchive.results">
        <div class="card" v-on:click="goToResult(result.url)">
          <div class="result-inner">
            <div class="card-image">
                 <figure class="image is-4by3">
-                  <img :src="result.image" :alt="'Thumbnail for' + result.title">
+                  <img class="thumbnail" :src="result.image" :alt="'Thumbnail for' + result.title">
                 </figure>
               </div>
           <div class="card-content">
@@ -95,7 +95,7 @@
         </div>
         </div>
 
-        <div class="column is-one-fifth">
+        <div class="column is-one-quarter">
           <div class="box"><div class="mb-2">
             <strong>{{ internetArchive.totalResults == 0 ? "No" : internetArchive.totalResults }} results</strong> from Internet Archive
           </div><a class="button is-primary" :href="'https://archive.org/search.php?query=%28' + enteredSearchInput + '%29%20AND%20collection%3A%28normanbleventhalmapcenter%29'" target="_blank" :class="[internetArchive.totalResults == 0 ? 'is-hidden' : '']">See all</a></div>
@@ -152,7 +152,7 @@ import Vue from "vue";
     methods: {
             trimmer: function(s){ 
         if( s.length > 160 )
-          { return s.substr(0,160) + "…"; }
+          { return s.substr(0,120) + "…"; }
         else 
           { return s; }
       },
@@ -164,7 +164,7 @@ import Vue from "vue";
         this.internetArchive.searchStatus = 'searching';
         this.internetArchive.results = [];
 
-        fetch(`https://collections.leventhalmap.org/search.json?&per_page=4&q=${this.searchInput}`)
+        fetch(`https://collections.leventhalmap.org/search.json?&per_page=3&q=${this.searchInput}`)
           .then(response => response.json())
           .then(result => {
               this.digitalCollections.searchStatus = 'returned';
@@ -182,7 +182,7 @@ import Vue from "vue";
           })
         .catch(() => {this.digitalCollections.searchStatus = 'failed'; this.digitalColletions.totalResults = 0; });
 
-        fetch(`https://archive.org/advancedsearch.php?q=%28${this.searchInput}%29+AND+collection%3A%28normanbleventhalmapcenter%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=4&page=1&output=json&save=yes`)
+        fetch(`https://archive.org/advancedsearch.php?q=%28${this.searchInput}%29+AND+collection%3A%28normanbleventhalmapcenter%29&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=year&sort%5B%5D=&sort%5B%5D=&sort%5B%5D=&rows=3&page=1&output=json&save=yes`)
           .then(response => response.json())
           .then(result => {
               this.internetArchive.searchStatus = 'returned';
@@ -236,6 +236,20 @@ import Vue from "vue";
 
 .card:hover {
   background: rgba(204, 198, 226, 0.199);
+}
+
+.card-content h5 {
+  font-weight: 600;
+  overflow: hidden;
+}
+
+.card-content h6 {
+  color: #555;
+  font-weight: 300;
+}
+
+.thumbnail {
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
