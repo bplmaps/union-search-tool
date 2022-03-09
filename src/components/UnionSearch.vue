@@ -172,10 +172,9 @@ import Vue from "vue";
               result.response.docs.forEach(r => {
                 this.digitalCollections.results.push({
                   title: r.title_info_primary_tsi,
-                  date: r.date_start_tsim[0],
+                  date: r.date_tsim[0],
                   id: r.id,
-                  image: `https://fedora.digitalcommonwealth.org/fedora/objects/${r.exemplary_image_ssi}/datastreams/thumbnail300/content
-`,
+                  image: `https://bpldcassets.blob.core.windows.net/derivatives/images/${r.exemplary_image_ssi}/image_thumbnail_300.jpg`,
                   url: `https://collections.leventhalmap.org/search/${r.id}`
                 });
               });
