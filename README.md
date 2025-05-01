@@ -1,5 +1,7 @@
 # union-search-webcomponent
 
+<img width="1552" alt="Screenshot 2025-05-01 at 2 51 59 PM" src="https://github.com/user-attachments/assets/a7b01249-a3a0-4771-9a96-b77bdcb3e227" />
+
 ## Project setup
 ```
 npm install
